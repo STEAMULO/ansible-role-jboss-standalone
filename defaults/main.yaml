@@ -1,0 +1,13 @@
+jbossAdminUsername: jboss
+jbossAdminPassword: steamulo
+jbossBase: /usr/share/jboss
+jbossUser: jboss
+jbossAjpPort: 8009
+jbossHttpPort: 8080
+jbossHttpsPort: 8443
+skipApplicationLink: false
+
+jboss_711_zip: https://s3-eu-west-1.amazonaws.com/steamansible-resources/jboss/jboss-as-7.1.1.Final.zip
+
+java_versions:
+  - oracle-java7-installer

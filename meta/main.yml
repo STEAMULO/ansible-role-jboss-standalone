@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: hebergement@steamulo.com
+  description: Install and configure a standalone jboss server (based on steamulo resource)
+  company: Steamulo
+  license: "Apache v2.0"
+  min_ansible_version: 2.0
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+    - web
+
+dependencies:
+  - src: git+ssh://git@github.com/STEAMULO/ansible-role-java.git
+    version: v01.00.001
+    name: steamulo.java

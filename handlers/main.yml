@@ -1,0 +1,11 @@
+---
+- name: restart jboss 
+  service: name=jboss state=restarted
+  notify: Enforce ownership and rights of JBoss installation
+
+- name: Enforce ownership and rights of JBoss installation
+  file: path="{{ jbossBase }}{{ item.path }}" owner="{{ jbossUser }}" group="{{ jbossUser }}" state=directory mode="{{ item.mode }}" recurse=yes
+  with_items:
+    - { path: '/', mode: 770 }
+    - { path: '/log', mode: 775 }
+  become: True
