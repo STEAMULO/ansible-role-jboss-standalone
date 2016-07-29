@@ -27,7 +27,7 @@ DESC="JBoss 7.1.1"
 # Set defaults.
 
 export JBOSS_HOME={{ jbossHome }}
-export JBOSS_USER=steamulo
+export JBOSS_USER={{ jbossUser }}
 export JBOSS_PIDFILE=/var/run/jboss/jboss.pid
 export JBOSS_LOG_DIR={{ jbossHome }}/log
 

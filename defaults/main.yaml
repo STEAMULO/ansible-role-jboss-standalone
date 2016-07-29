@@ -8,6 +8,3 @@ jbossHttpsPort: 8443
 skipApplicationLink: false
 
 jboss_711_zip: https://s3-eu-west-1.amazonaws.com/steamansible-resources/jboss/jboss-as-7.1.1.Final.zip
-
-java_versions:
-  - oracle-java7-installer

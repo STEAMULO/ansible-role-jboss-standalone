@@ -16,3 +16,6 @@ dependencies:
   - src: https://github.com/STEAMULO/ansible-role-java.git
     version: v01.00.001
     name: steamulo.java
+    java_versions:
+      - oracle-java7-installer
+
