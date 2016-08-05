@@ -26,10 +26,10 @@ DESC="JBoss 7.1.1"
 
 # Set defaults.
 
-export JBOSS_HOME={{ jbossHome }}
+export JBOSS_HOME={{ jbossBase }}
 export JBOSS_USER={{ jbossUser }}
 export JBOSS_PIDFILE=/var/run/jboss/jboss.pid
-export JBOSS_LOG_DIR={{ jbossHome }}/log
+export JBOSS_LOG_DIR={{ jbossBase }}/log
 
 # We need this to be set to get a pidfile !
 if [ -z "$LAUNCH_JBOSS_IN_BACKGROUND" ]; then
