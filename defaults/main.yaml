@@ -10,6 +10,9 @@ jbossOsgiHttpPort: 8090
 jbossRemotingPort: 4447
 jbossTxnRecoveryPort: 4712
 jbossTxnStatusPort: 4713
+jbossManNativePort: 9999
+jbossManHttpPort: 9990
+jbossManHttpsPort: 9443
 jbossSMTPRemoteHost: localhost
 jbossSMTPRemotePort: 25
 
