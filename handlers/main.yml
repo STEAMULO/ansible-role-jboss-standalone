@@ -2,6 +2,7 @@
 - name: restart jboss
   service: name="{{ jbossServiceName }}" state=restarted
   notify: Enforce ownership and rights of JBoss installation
+  when: jbossUseService
 
 - name: Enforce ownership and rights of JBoss installation
   file: path="{{ jbossBase }}{{ item.path }}" owner="{{ jbossUser }}" group="{{ jbossUser }}" state=directory mode="{{ item.mode }}" recurse=yes
