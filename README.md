@@ -17,14 +17,24 @@ Voici les variables disponibles avec leurs valeurs par défaut :
     jbossAdminUsername: jboss
     jbossAdminPassword: steamulo
     jbossBase: /usr/share/jboss
+    jbossServiceName: jboss
     jbossUser: jboss
     jbossAjpPort: 8009
     jbossHttpPort: 8080
     jbossHttpsPort: 8443
-    
-    # liaison de l'application steamengine avec le ROOT jboss si souhaité
-    homeDir: null
+    jbossOsgiHttpPort: 8090
+    jbossRemotingPort: 4447
+    jbossTxnRecoveryPort: 4712
+    jbossTxnStatusPort: 4713
+    jbossSMTPRemoteHost: localhost
+    jbossSMTPRemotePort: 25
     skipApplicationLink: false
+
+    # zip archive without root folder /!\
+    jbossZip: https://s3-eu-west-1.amazonaws.com/steamansible-resources/jboss/jboss-as-7.1.1.Final.zip
+    
+    # link an application root folder if needed
+    jbossApplicationScanPath: /xxx/yyy/zzz
 
 Dependencies
 ------------

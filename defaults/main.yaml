@@ -12,6 +12,5 @@ jbossTxnRecoveryPort: 4712
 jbossTxnStatusPort: 4713
 jbossSMTPRemoteHost: localhost
 jbossSMTPRemotePort: 25
-skipApplicationLink: false
 
-jboss_711_zip: https://s3-eu-west-1.amazonaws.com/steamansible-resources/jboss/jboss-as-7.1.1.Final.zip
+jbossZip: https://s3-eu-west-1.amazonaws.com/steamansible-resources/jboss/jboss-as-7.1.1.Final.zip

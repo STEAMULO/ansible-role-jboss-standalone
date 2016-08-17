@@ -1,6 +1,6 @@
 ---
-- name: restart jboss 
-  service: name=jboss state=restarted
+- name: restart jboss
+  service: name="{{ jbossServiceName }}" state=restarted
   notify: Enforce ownership and rights of JBoss installation
 
 - name: Enforce ownership and rights of JBoss installation
