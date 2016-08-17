@@ -1,56 +1,58 @@
 ---
+
+# Users work
   - name: Add group {{ jbossUser }}
     group: name="{{ jbossUser }}"
 
-  - name: Add user {{ jbossUser }}
+  - name: Create user {{ jbossUser }} and add to {{ jbossUser }} group with home={{ jbossBase }}
     user: name="{{ jbossUser }}" group="{{ jbossUser }}" home="{{ jbossBase }}"
     become: True
 
-  - name: Delete base dir for symlink of JBoss
-    shell: "rm -fr {{ jbossBase }}"
-    become: True
+  - name: Add {{ ssh_account }} to {{ jbossUser }} group
+    user: name="{{ ssh_account }}" groups="{{ jbossUser }}" append=yes
 
-  - name: Create /var/run/jboss for pid file
-    file: path=/var/run/jboss state=directory owner={{ jbossUser }} group={{ jbossUser }} recurse=yes
-    become: True
+# Download Jboss package
 
-  - name: Download JBoss
-    get_url: url="{{ jboss_711_zip }}" dest=/opt/jboss-as-7.1.1.Final.zip
+  - name: Ensure unzip is installed
+    apt: pkg=unzip state=present
 
-  - name: Extract archive
-    command: chdir=/usr/share /usr/bin/unzip -q /opt/jboss-as-7.1.1.Final.zip -d /opt creates=/opt/jboss-as-7.1.1.Final
+  - set_fact: jbossExtractFolder="/opt/{{ (jbossZip | basename | splitext)[0] }}"
 
-  - name: Symlink install directory
-    file: src=/opt/jboss-as-7.1.1.Final path="{{ jbossBase }}" state=link
+  - name: Ensure dir "{{ jbossExtractFolder }}" exists
+    file: path="{{ jbossExtractFolder }}" state=directory owner="{{ jbossUser }}" group="{{ jbossUser }}" recurse=yes
 
-  - name: Change ownership and rights of JBoss installation
+  - name: Download JBoss from "{{ jbossZip }}" and unzip archive to "{{ jbossExtractFolder }}" si "{{ jbossExtractFolder }}/standalone/configuration/standalone.xml" inexistant
+    unarchive: src="{{ jbossZip }}" dest="{{ jbossExtractFolder }}" remote_src=yes copy=no creates="{{ jbossExtractFolder }}/standalone/configuration/standalone.xml"
+
+# Install Jboss package
+
+  - name: Symlink install directory {{ jbossExtractFolder }} to {{ jbossBase }}
+    file: src="{{ jbossExtractFolder }}" path="{{ jbossBase }}" state=link
+
+  - name: Change ownership and rights of JBoss installation in {{ jbossBase }}
     file: path="{{ jbossBase }}{{ item.path }}" owner="{{ jbossUser }}" group="{{ jbossUser }}" state=directory mode="{{ item.mode }}" recurse=yes
     with_items:
       - { path: '/', mode: 770 }
       - { path: '/log', mode: 775 }
     become: True
 
-  - name: Copying standalone.xml configuration file
+# Configure Jboss server and service
+
+  - name: Create /var/run/{{ jbossServiceName }} for pid file
+    file: path="{{ jbossServiceName }}" state=directory owner="{{ jbossUser }}" group="{{ jbossUser }}" recurse=yes
+    become: True
+
+  - name: Copying standalone.xml configuration file into {{ jbossBase }}/standalone/configuration/
     template: src=standalone.xml dest="{{ jbossBase }}/standalone/configuration/"
     notify: restart jboss
 
-  - name: Add steamulo to jboss group
-    action: user name="{{ ssh_account }}" groups="users,sudo,{{ jbossUser }}" append=yes
-
-  - name: Delete JBoss Deployment folder
-    file: path="{{ jbossBase }}/standalone/deployments" state=absent
-
-  - name: Link application to Deployment folder
-    file: src="{{ homeDir }}/projectroot" dest="{{ jbossBase }}/standalone/deployments" owner="{{ jbossUser }}" group="{{ jbossUser }}" state=link force=yes
-    when: homeDir is defined and not skipApplicationLink
-
   - name: Copy the init script
-    template: src=jboss-as-standalone.sh dest=/etc/init.d/jboss mode=0755
+    template: src=jboss-as-standalone.sh dest=/etc/init.d/{{ jbossServiceName }} mode=0755
     notify: restart jboss
 
   - name: Creating Admin User
     command: "{{ jbossBase }}/bin/add-user.sh --silent=true {{ jbossAdminUsername }} {{ jbossAdminPassword }} 1>/dev/null"
 
   - name: Set JBOSS service as disabled ans dtopped (at boot)
-    service: name=jboss enabled=no
+    service: name="{{ jbossServiceName }}" enabled=no
 
