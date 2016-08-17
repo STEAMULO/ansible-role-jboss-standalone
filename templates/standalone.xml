@@ -297,12 +297,12 @@
         <socket-binding name="ajp" port="{{ jbossAjpPort }}"/>
         <socket-binding name="http" port="{{ jbossHttpPort }}"/>
         <socket-binding name="https" port="{{ jbossHttpsPort }}"/>
-        <socket-binding name="osgi-http" interface="management" port="8090"/>
-        <socket-binding name="remoting" port="4447"/>
-        <socket-binding name="txn-recovery-environment" port="4712"/>
-        <socket-binding name="txn-status-manager" port="4713"/>
+        <socket-binding name="osgi-http" interface="management" port="{{ jbossOsgiHttpPort }}"/>
+        <socket-binding name="remoting" port="{{ jbossRemotingPort }}"/>
+        <socket-binding name="txn-recovery-environment" port="{{ jbossTxnRecoveryPort }}"/>
+        <socket-binding name="txn-status-manager" port="{{ jbossTxnStatusPort }}"/>
         <outbound-socket-binding name="mail-smtp">
-            <remote-destination host="localhost" port="25"/>
+            <remote-destination host="{{ jbossSMTPRemoteHost }}" port="{{ jbossSMTPRemotePort }}"/>
         </outbound-socket-binding>
     </socket-binding-group>
 </server>

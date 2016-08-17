@@ -28,7 +28,7 @@ DESC="JBoss 7.1.1"
 
 export JBOSS_HOME={{ jbossBase }}
 export JBOSS_USER={{ jbossUser }}
-export JBOSS_PIDFILE=/var/run/jboss/jboss.pid
+export JBOSS_PIDFILE=/var/run/{{ jbossServiceName }}/{{ jbossServiceName }}.pid
 export JBOSS_LOG_DIR={{ jbossBase }}/log
 
 # We need this to be set to get a pidfile !
@@ -47,7 +47,7 @@ fi
 
 JBOSS_SCRIPT=$JBOSS_HOME/bin/standalone.sh
 
-prog='jboss'
+prog='{{ jbossServiceName }}'
 
 
 start() {
