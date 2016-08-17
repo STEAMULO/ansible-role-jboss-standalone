@@ -4,8 +4,8 @@
   - name: Add group {{ jbossUser }}
     group: name="{{ jbossUser }}"
 
-  - name: Create user {{ jbossUser }} and add to {{ jbossUser }} group with home={{ jbossBase }}
-    user: name="{{ jbossUser }}" group="{{ jbossUser }}" home="{{ jbossBase }}"
+  - name: Create user {{ jbossUser }} and add to {{ jbossUser }} group
+    user: name="{{ jbossUser }}" group="{{ jbossUser }}"
     become: True
 
   - name: Add {{ ssh_account }} to {{ jbossUser }} group
@@ -53,6 +53,6 @@
   - name: Creating Admin User
     command: "{{ jbossBase }}/bin/add-user.sh --silent=true {{ jbossAdminUsername }} {{ jbossAdminPassword }} 1>/dev/null"
 
-  - name: Set JBOSS service as disabled ans dtopped (at boot)
+  - name: Set JBOSS service as disabled ans stopped (at boot)
     service: name="{{ jbossServiceName }}" enabled=no
 
