@@ -9,7 +9,7 @@
     become: True
 
   - name: Add {{ ssh_account }} to {{ jbossUser }} group
-    user: name="{{ ssh_account }}" groups="users,sudo,{{ jbossUser }}" append=yes
+    user: name="{{ ssh_account }}" groups="{{ jbossUser }}" append=yes
 
 # Download Jboss package
 
