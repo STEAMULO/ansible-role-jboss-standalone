@@ -16,18 +16,16 @@
   - name: Ensure unzip is installed
     apt: pkg=unzip state=present
 
-  - set_fact: jbossExtractFolder="/opt/{{ (jbossZip | basename | splitext)[0] }}"
+  - name: Ensure dir "/opt/{{ jbossServiceName }}" exists
+    file: path="/opt/{{ jbossServiceName }}" state=directory owner="{{ jbossUser }}" group="{{ jbossUser }}" recurse=yes
 
-  - name: Ensure dir "{{ jbossExtractFolder }}" exists
-    file: path="{{ jbossExtractFolder }}" state=directory owner="{{ jbossUser }}" group="{{ jbossUser }}" recurse=yes
-
-  - name: Download JBoss from "{{ jbossZip }}" and unzip archive to "{{ jbossExtractFolder }}" si "{{ jbossExtractFolder }}/standalone/configuration/standalone.xml" inexistant
-    unarchive: src="{{ jbossZip }}" dest="{{ jbossExtractFolder }}" remote_src=yes copy=no creates="{{ jbossExtractFolder }}/standalone/configuration/standalone.xml"
+  - name: Download JBoss from "{{ jbossZip }}" and unzip archive to "/opt/{{ jbossServiceName }}"
+    unarchive: src="{{ jbossZip }}" dest="/opt/{{ jbossServiceName }}" remote_src=yes copy=no creates="/opt/{{ jbossServiceName }}/standalone/configuration/standalone.xml"
 
 # Install Jboss package
 
-  - name: Symlink install directory {{ jbossExtractFolder }} to {{ jbossBase }}
-    file: src="{{ jbossExtractFolder }}" path="{{ jbossBase }}" state=link
+  - name: Symlink install directory /opt/{{ jbossServiceName }} to {{ jbossBase }}
+    file: src="/opt/{{ jbossServiceName }}" path="{{ jbossBase }}" state=link
 
   - name: Change ownership and rights of JBoss installation in {{ jbossBase }}
     file: path="{{ jbossBase }}{{ item.path }}" owner="{{ jbossUser }}" group="{{ jbossUser }}" state=directory mode="{{ item.mode }}" recurse=yes
@@ -42,7 +40,7 @@
     file: path="{{ jbossServiceName }}" state=directory owner="{{ jbossUser }}" group="{{ jbossUser }}" recurse=yes
     become: True
 
-  - name: Copying standalone.xml configuration file into {{ jbossBase }}/standalone/configuration/
+  - name: Template standalone.xml configuration file into {{ jbossBase }}/standalone/configuration/
     template: src=standalone.xml dest="{{ jbossBase }}/standalone/configuration/"
     notify: restart jboss
 
@@ -53,6 +51,6 @@
   - name: Creating Admin User
     command: "{{ jbossBase }}/bin/add-user.sh --silent=true {{ jbossAdminUsername }} {{ jbossAdminPassword }} 1>/dev/null"
 
-  - name: Set JBOSS service as disabled ans stopped (at boot)
+  - name: Set JBOSS service as disabled and stopped (at boot)
     service: name="{{ jbossServiceName }}" enabled=no
 

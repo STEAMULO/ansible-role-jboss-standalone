@@ -1,7 +1,7 @@
 jbossAdminUsername: jboss
 jbossAdminPassword: steamulo
-jbossBase: /usr/share/jboss
 jbossServiceName: jboss
+jbossBase: "/usr/share/{{ jbossServiceName }}"
 jbossUser: jboss
 jbossAjpPort: 8009
 jbossHttpPort: 8080
