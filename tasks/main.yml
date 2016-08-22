@@ -8,9 +8,6 @@
     user: name="{{ jbossUser }}" group="{{ jbossUser }}"
     become: True
 
-  - name: Add {{ ssh_account }} to {{ jbossUser }} group
-    user: name="{{ ssh_account }}" groups="{{ jbossUser }}" append=yes
-
 # Download Jboss package
 
   - name: Ensure unzip is installed
