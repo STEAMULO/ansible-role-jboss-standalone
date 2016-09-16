@@ -48,6 +48,6 @@
   - name: Creating Admin User
     command: "{{ jbossBase }}/bin/add-user.sh --silent=true {{ jbossAdminUsername }} {{ jbossAdminPassword }} 1>/dev/null"
 
-  - name: Set JBOSS service as disabled and stopped (at boot)
-    service: name="{{ jbossServiceName }}" enabled=no
+  - name: Set JBOSS service according to {{ jbossUseService }}
+    service: name="{{ jbossServiceName }}" enabled="{{ jbossUseService | ternary('yes','no')}}"
 
