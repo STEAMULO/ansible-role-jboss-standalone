@@ -17,7 +17,7 @@
     file: path="/opt/{{ jbossServiceName }}" state=directory owner="{{ jbossUser }}" group="{{ jbossUser }}" recurse=yes
 
   - name: Download JBoss from "{{ jbossZip }}" and unzip archive to "/opt/{{ jbossServiceName }}"
-    unarchive: src="{{ jbossZip }}" dest="/opt/{{ jbossServiceName }}" remote_src=yes copy=no creates="/opt/{{ jbossServiceName }}/standalone/configuration/standalone.xml"
+    unarchive: src="{{ jbossZip }}" dest="/opt/{{ jbossServiceName }}" remote_src=yes creates="/opt/{{ jbossServiceName }}/standalone/configuration/standalone.xml"
 
 # Install Jboss package
 
