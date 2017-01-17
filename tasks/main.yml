@@ -44,10 +44,16 @@
   - name: Copy the init script
     template: src=jboss-as-standalone.sh dest=/etc/init.d/{{ jbossServiceName }} mode=0755
     notify: restart jboss
+    when: ansible_distribution_release == "trusty"
+
+  - name: Copy the systemd script
+    template: src=jboss.service dest="/etc/systemd/system/{{ jbossServiceName }}.service" mode=0755
+    notify: restart jboss
+    when: ansible_distribution_release == "xenial"
 
   - name: Creating Admin User
     command: "{{ jbossBase }}/bin/add-user.sh --silent=true {{ jbossAdminUsername }} {{ jbossAdminPassword }} 1>/dev/null"
 
   - name: Set JBOSS service according to {{ jbossUseService }}
-    service: name="{{ jbossServiceName }}" enabled="{{ jbossUseService | ternary('yes','no')}}"
+    service: name="{{ jbossServiceName }}" enabled="{{ jbossUseService | ternary('yes','no')}}" daemon-reload=yes
 
