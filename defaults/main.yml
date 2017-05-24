@@ -19,3 +19,6 @@ jbossSMTPRemotePort: 25
 jbossUseService: true
 
 jbossZip: https://s3-eu-west-1.amazonaws.com/steamansible-resources/jboss/jboss-as-7.1.1.Final.zip
+
+jboss_java_versions:
+  - oracle-java8-installer
